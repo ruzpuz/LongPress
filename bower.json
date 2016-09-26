@@ -1,0 +1,22 @@
+{
+  "name": "LongPress",
+  "homepage": "https://github.com/ruzpuz/LongPress",
+  "authors": [
+    "Vladimir Ruzic <vladimir@ruzic.info>"
+  ],
+  "description": "Handle long press events on HTML elements",
+  "main": "",
+  "keywords": [
+    "long",
+    "press",
+    "click"
+  ],
+  "license": "WTFPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
