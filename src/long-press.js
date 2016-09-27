@@ -4,7 +4,7 @@
         return (typeof element === 'string' || element instanceof String)
     }
 
-    function LongPressConstructor(element) {
+    function LongPress(element) {
         if(!element) {
             /* TODO default constructor
             *  Should search for all elements with data-on-long-press attribute and try to eval
@@ -13,6 +13,8 @@
 
         }
     }
-    var  LongPress = window.LongPress || (window.LongPress = LongPressConstructor);
+    if(!window.LongPress) {
+        window.LongPress = LongPress;
+    }
 
 }());
