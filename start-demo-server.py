@@ -14,6 +14,7 @@ class demoAppHandler(BaseHTTPRequestHandler):
 			mimetype='text/html'
 			sendReply = True
 		if self.path.endswith(".js"):
+			self.path="/demo/demo-application.js"
 			mimetype='application/javascript'
 			sendReply = True
 		
