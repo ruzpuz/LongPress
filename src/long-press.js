@@ -16,16 +16,13 @@
             element && typeof element === "object" && element !== null && element.nodeType === 1 && typeof element.nodeName==="string"
         );
     }
-    function isNodeList(element) {
-        console.log(typeof element.length === 'number'
-            && typeof element.item !== 'undefined'
-            && typeof element.nextNode === 'function'
-            && typeof element.reset === 'function');
+    function isNodeList(nodes) {
+        var stringRepr = Object.prototype.toString.call(nodes);
 
-        return (typeof element.length == 'number'
-        && typeof element.item == 'function'
-        && typeof element.nextNode == 'function'
-        && typeof element.reset == 'function');
+        return typeof nodes === 'object' &&
+            /^\[object (HTMLCollection|NodeList|Object)\]$/.test(stringRepr) &&
+            (typeof nodes.length === 'number') &&
+            (nodes.length === 0 || (typeof nodes[0] === "object" && nodes[0].nodeType > 0));
     }
 
     function getDomElements(element) {
@@ -44,14 +41,10 @@
             throw new Error(error);
         }
 
-        console.log(Array.prototype.slice.call(element))
         if(!element) {
-            /* TODO
-             *  Should search for all elements with data-on-long-press attribute and try to eval
-             * */
-            Array.prototype.slice.call(document.querySelectorAll('[data-on-long-press]'));
+           return Array.prototype.slice.call(document.querySelectorAll('[data-on-long-press]'));
         } else if (isString(element)) {
-            return document.querySelectorAll(element);
+            return Array.prototype.slice.call(document.querySelectorAll(element));
         } else if(isNodeList(element)) {
             return Array.prototype.slice.call(element);
         } else if(Array.isArray(element)) {
@@ -79,7 +72,7 @@
 
     function bind(element) {
         var elements = getDomElements(element);
-        console.log(elements[0])
+        console.log(elements);
     }
     function unbind() {
 

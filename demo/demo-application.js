@@ -3,7 +3,9 @@
 
     longPress.setLongClickDuration(1500);
 
-    try{longPress.bind(document.querySelectorAll('[data-on-long-press]'))} catch (e) {
+    try{
+        longPress.bind(document.querySelector('div'));
+    } catch (e) {
         console.log(e)
     }
     console.log(longPress);
