@@ -72,10 +72,25 @@
 
     function bind(element) {
         var elements = getDomElements(element);
+        this.boundElements = elements;
         console.log(elements);
     }
-    function unbind() {
+    function unbind(element) {
+        var elements = getDomElements(element),
+            boundElementsLength = this.boundElements.length,
+            elementsLength = elements.length,
+            i,
+            j;
 
+        for(i = 0; i < elementsLength; i += 1) {
+            for (j = 0; j < boundElementsLength; j += 1) {
+
+                if (elements[i] === this.boundElements[j]) {
+                    this.boundElements.splice(j,1);
+                }
+
+            }
+        }
     }
     function setLongClickDuration(duration) {
         if(!isInt(duration)) {
