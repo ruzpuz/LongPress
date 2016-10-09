@@ -28,7 +28,13 @@
             (typeof nodes.length === 'number') &&
             (nodes.length === 0 || (typeof nodes[0] === "object" && nodes[0].nodeType > 0));
     }
-
+    function arrayUnion(first, second) {
+        var tmp = first.concat(second);
+        function unique(item, pos) {
+            return tmp.indexOf(item) === pos;
+        }
+        return tmp.filter(unique);
+    }
 
     function  drownEvent(event) {
 
@@ -169,7 +175,12 @@
 
     function bind(element) {
         var elements = getDomElements(element);
-        this.boundElements = elements;
+        this.boundElements = arrayUnion(this.boundElements, elements);
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+         *  We will create hash from element - and fetch callback with it.
+         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
         console.log(elements);
     }
     function unbind(element) {
