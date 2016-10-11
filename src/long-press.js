@@ -1,4 +1,5 @@
 (function () {
+
     'use strict';
 
     var defaultLongClickDuration = 500,
@@ -35,8 +36,36 @@
         }
         return tmp.filter(unique);
     }
+    function createCallback(element, callback) {
+        var error;
+        if(callback && typeof callback !== 'function') {
+            error = {
+                "message": 'Callback is not a function',
+                "expected": 'function',
+                "got": {
+                    "value": callback,
+                    "type": typeof callback
+                }
+            };
+            console.log(error);
+            throw error;
+        } else if(callback) {
+            return callback;
+        } else{
+            if(element.hasAttribute('data-on-long-press')) {
+                return new Function(element.getAttribute('data-on-long-press'));
+            } else {
+                error = {
+                    "message": 'Callback not provided',
+                    "expected": 'An expression in data-on-long-press attribute'
+                };
+                console.log(error);
+                throw error;
+            }
+        }
+    }
 
-    function  drownEvent(event) {
+    function drownEvent(event) {
 
         event.cancel=true;
         event.returnValue=false;
@@ -141,7 +170,7 @@
             };
             details ? error.got.details = details : {};
             console.log(error);
-            throw new Error(error);
+            throw error;
         }
 
         if(!element) {
@@ -173,13 +202,20 @@
 
     }
 
-    function bind(element) {
-        var elements = getDomElements(element);
-        this.boundElements = arrayUnion(this.boundElements, elements);
-
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         *  We will create hash from element - and fetch callback with it.
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    function bind(element, callback) {
+        var elements = getDomElements(element),
+            msecs = Date.now(),
+            length = elements.length,
+            i;
+        for(i = 0; i < length; i += 1) {
+            if(elements[i].hasAttribute('data-lnpr-id')) {
+                this.boundElements.callbacks[elements[i].getAttribute('data-lnpr-id')] = createCallback(elements[i], callback);
+            } else {
+                elements[i].setAttribute('data-lnpr-id', msecs);
+                this.boundElements.callbacks[msecs] = createCallback(elements[i], callback);
+            }
+        }
+        this.boundElements.DOMElements = arrayUnion(this.boundElements.DOMElements, elements);
 
         console.log(elements);
     }
@@ -218,7 +254,7 @@
     }
     function LongPress() {
 
-        this.boundElements = [];
+        this.boundElements = { "DOMElements" : [], "callbacks": {} };
         this.longClickDuration = defaultLongClickDuration;
 
         this.bind = bind;
@@ -228,6 +264,7 @@
     }
     
     if(!window.longPress) {
+        createCssClass();
         window.longPress =  new LongPress();
     }
 
