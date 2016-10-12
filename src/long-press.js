@@ -129,6 +129,7 @@
         return false;
     }
     function clickEventStarted(event) {
+        console.log(event.srcElement)
         angular.element(document.body).addClass('ng-long-press');
 
         clickedElementOrigin = event.target;
@@ -215,6 +216,10 @@
                 this.boundElements.callbacks[msecs] = createCallback(elements[i], callback);
             }
         }
+        elements[i].removeEventListener('mousedown', clickEventStarted);
+        elements[i].removeEventListener('touchstart', clickEventStarted);
+        elements[i].addEventListener('mousedown', clickEventStarted);
+        elements[i].addEventListener('touchstart', clickEventStarted);
         this.boundElements.DOMElements = arrayUnion(this.boundElements.DOMElements, elements);
 
         console.log(elements);
