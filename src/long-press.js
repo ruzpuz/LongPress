@@ -65,6 +65,28 @@
         }
     }
 
+    function hasClass(el, className) {
+        if (el.classList) {
+            return el.classList.contains(className);
+        }
+        return !!el.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)'));
+    }
+    function addClass(el, className) {
+        if (el.classList) {
+            el.classList.add(className);
+        } else if (!hasClass(el, className)) {
+            el.className += " " + className;
+        }
+    }
+    function removeClass(el, className) {
+        if (el.classList) {
+            el.classList.remove(className);
+        } else if (hasClass(el, className)) {
+            var reg = new RegExp('(\\s|^)' + className + '(\\s|$)');
+            el.className = el.className.replace(reg, ' ');
+        }
+    }
+
     function drownEvent(event) {
 
         event.cancel=true;
@@ -108,40 +130,40 @@
         } else if (clickedElementOrigin.onclick) {
             removeOnClick();
         }
-        angular.element(document.body).removeClass('ng-long-press');
-        $timeout(scope.callback);
+        removeClass(document.body, 'ng-long-press');
+        setTimeout(window.longPress.boundElements.callbacks[clickedElementOrigin.getAttribute('data-lnpr-id')]);
     }
     function clickEventStopped(event) {
 
         drownEvent(event);
 
-        domElem.removeEventListener('mouseout', clickEventStopped);
-        domElem.removeEventListener('mouseup', clickEventStopped);
-        domElem.removeEventListener('touchend', clickEventStopped);
-        domElem.removeEventListener('touchcancel', clickEventStopped);
-        domElem.removeEventListener('touchmove', clickEventStopped);
+        clickedElementOrigin.removeEventListener('mouseout', clickEventStopped);
+        clickedElementOrigin.removeEventListener('mouseup', clickEventStopped);
+        clickedElementOrigin.removeEventListener('touchend', clickEventStopped);
+        clickedElementOrigin.removeEventListener('touchcancel', clickEventStopped);
+        clickedElementOrigin.removeEventListener('touchmove', clickEventStopped);
 
-        $timeout(returnOnClick);
-        $timeout(returnHref);
+        setTimeout(returnOnClick);
+        setTimeout(returnHref);
 
-        $timeout.cancel(longPressTimer);
+        clearTimeout(longPressTimer);
 
         return false;
     }
     function clickEventStarted(event) {
-        console.log(event.srcElement)
-        angular.element(document.body).addClass('ng-long-press');
+
+        addClass(document.body, 'ng-long-press');
 
         clickedElementOrigin = event.target;
         drownEvent(event);
 
-        longPressTimer = $timeout(longPressHappened, length);
+        longPressTimer = setTimeout(longPressHappened, window.longPress.longClickDuration);
 
-        domElem.addEventListener('mouseout', clickEventStopped);
-        domElem.addEventListener('mouseup', clickEventStopped);
-        domElem.addEventListener('touchend', clickEventStopped);
-        domElem.addEventListener('touchcancel', clickEventStopped);
-        domElem.addEventListener('touchmove', clickEventStopped);
+        clickedElementOrigin.addEventListener('mouseout', clickEventStopped);
+        clickedElementOrigin.addEventListener('mouseup', clickEventStopped);
+        clickedElementOrigin.addEventListener('touchend', clickEventStopped);
+        clickedElementOrigin.addEventListener('touchcancel', clickEventStopped);
+        clickedElementOrigin.addEventListener('touchmove', clickEventStopped);
 
         return false;
     }
@@ -215,14 +237,12 @@
                 elements[i].setAttribute('data-lnpr-id', msecs);
                 this.boundElements.callbacks[msecs] = createCallback(elements[i], callback);
             }
+            elements[i].removeEventListener('mousedown', clickEventStarted);
+            elements[i].removeEventListener('touchstart', clickEventStarted);
+            elements[i].addEventListener('mousedown', clickEventStarted);
+            elements[i].addEventListener('touchstart', clickEventStarted);
         }
-        elements[i].removeEventListener('mousedown', clickEventStarted);
-        elements[i].removeEventListener('touchstart', clickEventStarted);
-        elements[i].addEventListener('mousedown', clickEventStarted);
-        elements[i].addEventListener('touchstart', clickEventStarted);
         this.boundElements.DOMElements = arrayUnion(this.boundElements.DOMElements, elements);
-
-        console.log(elements);
     }
     function unbind(element) {
         var elements = getDomElements(element),
