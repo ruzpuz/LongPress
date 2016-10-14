@@ -13,7 +13,7 @@
         return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
     }
     function isString(element) {
-        return (typeof element === 'string' || element instanceof String)
+        return (typeof element === 'string' || element instanceof String);
     }
     function isDomElement(element){
         return (
@@ -47,7 +47,6 @@
                     "type": typeof callback
                 }
             };
-            console.log(error);
             throw error;
         } else if(callback) {
             return callback;
@@ -59,7 +58,6 @@
                     "message": 'Callback not provided',
                     "expected": 'An expression in data-on-long-press attribute'
                 };
-                console.log(error);
                 throw error;
             }
         }
@@ -131,7 +129,7 @@
             removeOnClick();
         }
         removeClass(document.body, 'ng-long-press');
-        setTimeout(window.longPress.boundElements.callbacks[clickedElementOrigin.getAttribute('data-lnpr-id')]);
+        setTimeout(window.longPress.boundElements.callbacks[clickedElementOrigin.getAttribute('data-lnpr-id')].callback);
     }
     function clickEventStopped(event) {
 
@@ -157,7 +155,11 @@
         clickedElementOrigin = event.target;
         drownEvent(event);
 
-        longPressTimer = setTimeout(longPressHappened, window.longPress.longClickDuration);
+        longPressTimer = setTimeout(longPressHappened, window
+            .longPress
+            .boundElements
+            .callbacks[clickedElementOrigin.getAttribute('data-lnpr-id')]
+            .duration);
 
         clickedElementOrigin.addEventListener('mouseout', clickEventStopped);
         clickedElementOrigin.addEventListener('mouseup', clickEventStopped);
@@ -192,7 +194,6 @@
                 }
             };
             details ? error.got.details = details : {};
-            console.log(error);
             throw error;
         }
 
@@ -225,28 +226,35 @@
 
     }
 
-    function bind(element, callback) {
+    function bind(element, callback, duration) {
         var elements = getDomElements(element),
             msecs = Date.now(),
             length = elements.length,
             i;
+
         for(i = 0; i < length; i += 1) {
             if(elements[i].hasAttribute('data-lnpr-id')) {
-                this.boundElements.callbacks[elements[i].getAttribute('data-lnpr-id')] = createCallback(elements[i], callback);
+                window.longPress.boundElements.callbacks[elements[i].getAttribute('data-lnpr-id')] = {
+                    "callback" : createCallback(elements[i], callback),
+                    "duration" : isInt(duration) ? duration : window.longPress.longClickDuration
+                };
             } else {
                 elements[i].setAttribute('data-lnpr-id', msecs);
-                this.boundElements.callbacks[msecs] = createCallback(elements[i], callback);
+                window.longPress.boundElements.callbacks[msecs] = {
+                    "callback" : createCallback(elements[i], callback),
+                    "duration" : isInt(duration) ? duration : window.longPress.longClickDuration
+                };
             }
             elements[i].removeEventListener('mousedown', clickEventStarted);
             elements[i].removeEventListener('touchstart', clickEventStarted);
             elements[i].addEventListener('mousedown', clickEventStarted);
             elements[i].addEventListener('touchstart', clickEventStarted);
         }
-        this.boundElements.DOMElements = arrayUnion(this.boundElements.DOMElements, elements);
+        window.longPress.boundElements.DOMElements = arrayUnion(window.longPress.boundElements.DOMElements, elements);
     }
     function unbind(element) {
         var elements = getDomElements(element),
-            boundElementsLength = this.boundElements.length,
+            boundElementsLength = window.longPress.boundElements.length,
             elementsLength = elements.length,
             i,
             j;
@@ -254,8 +262,8 @@
         for(i = 0; i < elementsLength; i += 1) {
             for (j = 0; j < boundElementsLength; j += 1) {
 
-                if (elements[i] === this.boundElements[j]) {
-                    this.boundElements.splice(j,1);
+                if (elements[i] === window.longPress.boundElements[j]) {
+                    window.longPress.boundElements.splice(j,1);
                 }
 
             }
@@ -271,10 +279,9 @@
                     "type": typeof duration
                 }
             };
-            console.log(error);
             throw error;
         } else {
-            this.longClickDuration = duration;
+            window.longPress.longClickDuration = duration;
         }
     }
     function LongPress() {

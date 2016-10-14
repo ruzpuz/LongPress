@@ -1,10 +1,9 @@
 (function () {
     'use strict';
-
-    longPress.setLongClickDuration(1500);
+    longPress.bind(document.querySelector('#second'), null, 500);
 
     try{
-        longPress.bind(document.querySelector('#second'));
+        //longPress.bind(document.querySelector('#second'));
         console.log(longPress)
     } catch (e) {
         console.log(e)
