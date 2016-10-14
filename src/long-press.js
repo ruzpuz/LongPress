@@ -8,6 +8,7 @@
         clickedElementCallback,
         clickedElementOrigin;
 
+    /*  Utility functions   */
     function isInt(value) {
         var x;
         return isNaN(value) ? !1 : (x = parseFloat(value), (0 | x) === x);
@@ -62,7 +63,6 @@
             }
         }
     }
-
     function hasClass(el, className) {
         if (el.classList) {
             return el.classList.contains(className);
@@ -84,7 +84,20 @@
             el.className = el.className.replace(reg, ' ');
         }
     }
+    function createCssClass() {
+        var style = document.createElement('style');
 
+        style.type = 'text/css';
+        style.id = 'ng-long-press-style';
+        style.innerHTML = '.ng-long-press {-webkit-touch-callout: none !important; user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; -webkit-user-select: none !important;}';
+
+        if(!document.getElementById('ng-long-press-style')) {
+            document.getElementsByTagName('head')[0].appendChild(style);
+        }
+
+    }
+
+    /*  Functions that prevent default behavior of elements  */
     function drownEvent(event) {
 
         event.cancel=true;
@@ -122,6 +135,7 @@
         }
     }
 
+    /*  Event handling functions  */
     function longPressHappened() {
         if (clickedElementOrigin.tagName === 'A') {
             removeHref();
@@ -169,19 +183,8 @@
 
         return false;
     }
-    function createCssClass() {
-        var style = document.createElement('style');
 
-        style.type = 'text/css';
-        style.id = 'ng-long-press-style';
-        style.innerHTML = '.ng-long-press {-webkit-touch-callout: none !important; user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; -webkit-user-select: none !important;}';
-
-        if(!document.getElementById('ng-long-press-style')) {
-            document.getElementsByTagName('head')[0].appendChild(style);
-        }
-
-    }
-
+    /*  Function that transforms any valid input to an array of DOMElements */
     function getDomElements(element) {
 
         function throwError(details) {
@@ -226,6 +229,7 @@
 
     }
 
+    /*  Methods */
     function bind(element, callback, duration) {
         var elements = getDomElements(element),
             msecs = Date.now(),
@@ -284,6 +288,8 @@
             window.longPress.longClickDuration = duration;
         }
     }
+
+    /*  Constructor */
     function LongPress() {
 
         this.boundElements = { "DOMElements" : [], "callbacks": {} };
