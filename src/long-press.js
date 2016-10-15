@@ -258,18 +258,18 @@
     }
     function unbind(element) {
         var elements = getDomElements(element),
-            boundElementsLength = window.longPress.boundElements.length,
+            boundElementsLength = window.longPress.boundElements.DOMElements.length,
             elementsLength = elements.length,
-            i,
-            j;
+            i, j;
 
         for(i = 0; i < elementsLength; i += 1) {
             for (j = 0; j < boundElementsLength; j += 1) {
-
-                if (elements[i] === window.longPress.boundElements[j]) {
-                    window.longPress.boundElements.splice(j,1);
+                if (elements[i] === window.longPress.boundElements.DOMElements[j]) {
+                    elements[i].removeEventListener('mousedown', clickEventStarted);
+                    elements[i].removeEventListener('touchstart', clickEventStarted);
+                    delete window.longPress.boundElements.callbacks[elements[i].getAttribute('data-lnpr-id')];
+                    window.longPress.boundElements.DOMElements.splice(j,1);
                 }
-
             }
         }
     }
