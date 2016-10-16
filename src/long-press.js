@@ -242,13 +242,13 @@
             if(elements[i].hasAttribute('data-lnpr-id')) {
                 window.longPress.boundElements.callbacks[elements[i].getAttribute('data-lnpr-id')] = {
                     "callback" : createCallback(elements[i], callback),
-                    "duration" : isInt(duration) ? duration : window.longPress.longClickDuration
+                    "duration" : isInt(duration) ? duration : window.longPress.defaultDuration
                 };
             } else {
                 elements[i].setAttribute('data-lnpr-id', msecs);
                 window.longPress.boundElements.callbacks[msecs] = {
                     "callback" : createCallback(elements[i], callback),
-                    "duration" : isInt(duration) ? duration : window.longPress.longClickDuration
+                    "duration" : isInt(duration) ? duration : window.longPress.defaultDuration
                 };
             }
             elements[i].removeEventListener('mousedown', clickEventStarted);
@@ -275,7 +275,7 @@
             }
         }
     }
-    function setLongClickDuration(duration) {
+    function setDefaultDuration(duration) {
         if(!isInt(duration)) {
             var error = {
                 "message": 'Invalid argument',
@@ -287,7 +287,7 @@
             };
             throw error;
         } else {
-            window.longPress.longClickDuration = duration;
+            window.longPress.defaultDuration = duration;
         }
     }
 
@@ -295,11 +295,11 @@
     function LongPress() {
 
         this.boundElements = { "DOMElements" : [], "callbacks": {} };
-        this.longClickDuration = defaultLongClickDuration;
+        this.defaultDuration = defaultLongClickDuration;
 
         this.bind = bind;
         this.unbind = unbind;
-        this.setLongClickDuration = setLongClickDuration;
+        this.setDefaultDuration = setDefaultDuration;
 
     }
     
