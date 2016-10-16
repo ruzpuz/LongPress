@@ -5,24 +5,24 @@
         <title>Long press demo</title>
     </head>
     <body>
-        <h1>This will be the demo. </h1>
+        <h1 style="text-align: center; padding:20px; margin:20px;">Long press demo </h1>
 
-        <div style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
+        <div id="normal-1500" data-on-long-press="alert('a')" style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
             LONG PRESS - 1500ms
         </div>
-        <div style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
+        <div id="normal-500" data-on-long-press="alert('a')" style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
             LONG PRESS - default 500ms
         </div>
-        <div style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
+        <div class="things-inside" style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
             This is a div that has urls inside.
             <a href="https://www.google.com"> LONG PRESS LINK </a>
             You can press anywhere
         </div>
-        <div style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
+        <div class="things-inside" style="background-color:lightblue; text-align: center; padding:20px; margin:20px;">
             <button onclick="alert('a');"> click me </button>
         </div>
 
-        g<script src="../src/long-press.js"></script>
+        <script src="../src/long-press.js"></script>
         <script src="./demo-application.js"></script>
     </body>
 </html>

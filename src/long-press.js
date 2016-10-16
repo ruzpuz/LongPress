@@ -6,6 +6,7 @@
         longPressTimer,
         clickedElementHref,
         clickedElementCallback,
+        clickedElement,
         clickedElementOrigin;
 
     /*  Utility functions   */
@@ -138,22 +139,23 @@
     /*  Event handling functions  */
     function longPressHappened() {
         if (clickedElementOrigin.tagName === 'A') {
+            console.log(clickedElementOrigin)
             removeHref();
         } else if (clickedElementOrigin.onclick) {
             removeOnClick();
         }
         removeClass(document.body, 'ng-long-press');
-        setTimeout(window.longPress.boundElements.callbacks[clickedElementOrigin.getAttribute('data-lnpr-id')].callback);
+        setTimeout(window.longPress.boundElements.callbacks[clickedElement.getAttribute('data-lnpr-id')].callback);
     }
     function clickEventStopped(event) {
 
         drownEvent(event);
 
-        clickedElementOrigin.removeEventListener('mouseout', clickEventStopped);
-        clickedElementOrigin.removeEventListener('mouseup', clickEventStopped);
-        clickedElementOrigin.removeEventListener('touchend', clickEventStopped);
-        clickedElementOrigin.removeEventListener('touchcancel', clickEventStopped);
-        clickedElementOrigin.removeEventListener('touchmove', clickEventStopped);
+        clickedElement.removeEventListener('mouseout', clickEventStopped);
+        clickedElement.removeEventListener('mouseup', clickEventStopped);
+        clickedElement.removeEventListener('touchend', clickEventStopped);
+        clickedElement.removeEventListener('touchcancel', clickEventStopped);
+        clickedElement.removeEventListener('touchmove', clickEventStopped);
 
         setTimeout(returnOnClick);
         setTimeout(returnHref);
@@ -165,21 +167,21 @@
     function clickEventStarted(event) {
 
         addClass(document.body, 'ng-long-press');
-
+        clickedElement = this;
         clickedElementOrigin = event.target;
         drownEvent(event);
 
         longPressTimer = setTimeout(longPressHappened, window
             .longPress
             .boundElements
-            .callbacks[clickedElementOrigin.getAttribute('data-lnpr-id')]
+            .callbacks[clickedElement.getAttribute('data-lnpr-id')]
             .duration);
 
-        clickedElementOrigin.addEventListener('mouseout', clickEventStopped);
-        clickedElementOrigin.addEventListener('mouseup', clickEventStopped);
-        clickedElementOrigin.addEventListener('touchend', clickEventStopped);
-        clickedElementOrigin.addEventListener('touchcancel', clickEventStopped);
-        clickedElementOrigin.addEventListener('touchmove', clickEventStopped);
+        clickedElement.addEventListener('mouseout', clickEventStopped);
+        clickedElement.addEventListener('mouseup', clickEventStopped);
+        clickedElement.addEventListener('touchend', clickEventStopped);
+        clickedElement.addEventListener('touchcancel', clickEventStopped);
+        clickedElement.addEventListener('touchmove', clickEventStopped);
 
         return false;
     }
