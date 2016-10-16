@@ -242,13 +242,13 @@
             if(elements[i].hasAttribute('data-lnpr-id')) {
                 window.longPress.boundElements.callbacks[elements[i].getAttribute('data-lnpr-id')] = {
                     "callback" : createCallback(elements[i], callback),
-                    "duration" : isInt(duration) ? duration : window.longPress.defaultDuration
+                    "duration" : isInt(duration) ? duration : window.longPress.longClickDuration
                 };
             } else {
                 elements[i].setAttribute('data-lnpr-id', msecs);
                 window.longPress.boundElements.callbacks[msecs] = {
                     "callback" : createCallback(elements[i], callback),
-                    "duration" : isInt(duration) ? duration : window.longPress.defaultDuration
+                    "duration" : isInt(duration) ? duration : window.longPress.longClickDuration
                 };
             }
             elements[i].removeEventListener('mousedown', clickEventStarted);
@@ -287,7 +287,7 @@
             };
             throw error;
         } else {
-            window.longPress.defaultDuration = duration;
+            window.longPress.longClickDuration = duration;
         }
     }
 
@@ -295,7 +295,7 @@
     function LongPress() {
 
         this.boundElements = { "DOMElements" : [], "callbacks": {} };
-        this.defaultDuration = defaultLongClickDuration;
+        this.longClickDuration = defaultLongClickDuration;
 
         this.bind = bind;
         this.unbind = unbind;
