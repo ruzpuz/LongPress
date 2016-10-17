@@ -1,0 +1,20 @@
+{
+  "name": "longpress",
+  "version": "0.0.1",
+  "description": "Handle long press events on HTML elements",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minify": "0.0.14"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruzpuz/LongPress"
+  },
+  "author": "Vladimir Ruzic <vladimir@ruzic.info>",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/ruzpuz/long-press/issues"
+  },
+  "homepage": "https://github.com/ruzpuz/LongPress#readme"
+}
