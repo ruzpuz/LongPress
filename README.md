@@ -23,9 +23,19 @@ First argument represents elements that should have long press possibilities. It
 Second argument is a callback. If no callback is provided library will try to construct a function with what is provided in __data-on-long-press__ tag.
 Third argument is a long press duration in milliseconds. If no duration is provided default one will be used.
 
-    longPress.bind(document.querySelector('#normal-1500'), null, 1500);
-    longPress.bind(document.querySelectorAll('.things-inside'), function() { alert('long-press'); }, 500);
+    longPress.bind(document.querySelector('#normal-1500'), 
+                    null, 
+                    1500);
+    longPress.bind(document.querySelectorAll('.things-inside'), 
+                    function() { alert('long-press'); },
+                    500);
 
+longPress.unbind() accepts one optional argument. It can be a query, array of DOM Elements or NodeList. If nothing is provided then all listeners will be freed. 
+
+    longPress.unbind(document.querySelector('#normal-1500'));
+    longPress.unbind();
+
+longPress.setDefaultDuration(milliseconds) accepts new default long press duration.
 
 ## Disadvantages
 
