@@ -7,9 +7,11 @@
   ],
   "description": "Handle long press events on HTML elements",
   "keywords": [
+    "longpress",
+    "longclick",
     "long",
-    "press",
-    "click"
+    "click",
+    "press"
   ],
   "license": "WTFPL",
   "ignore": [
