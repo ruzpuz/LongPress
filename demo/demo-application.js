@@ -1,12 +1,13 @@
 (function () {
     'use strict';
 
-    longPress.setLongClickDuration(1500);
-
-    try{
-        longPress.bind(document.querySelector('div'));
+   try{
+       longPress.bind(document.querySelector('#normal-1500'), null, 1500);
+       longPress.bind(document.querySelector('#normal-500'), null, 500);
+       longPress.bind(document.querySelectorAll('.things-inside'), function() { alert('long-press'); }, 500);
     } catch (e) {
         console.log(e)
     }
     console.log(longPress);
+
 }());
