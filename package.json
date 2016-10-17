@@ -1,6 +1,6 @@
 {
   "name": "longpress",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Handle long press events on HTML elements",
   "dependencies": {
     "gulp": "^3.9.1",
