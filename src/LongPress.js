@@ -89,10 +89,10 @@
         var style = document.createElement('style');
 
         style.type = 'text/css';
-        style.id = 'ng-long-press-style';
-        style.innerHTML = '.ng-long-press {-webkit-touch-callout: none !important; user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; -webkit-user-select: none !important;}';
+        style.id = 'long-press-style';
+        style.innerHTML = '.long-press-global {-webkit-touch-callout: none !important; user-select: none !important; -moz-user-select: none !important; -ms-user-select: none !important; -webkit-user-select: none !important;}';
 
-        if(!document.getElementById('ng-long-press-style')) {
+        if(!document.getElementById('long-press-style')) {
             document.getElementsByTagName('head')[0].appendChild(style);
         }
 
@@ -139,12 +139,11 @@
     /*  Event handling functions  */
     function longPressHappened() {
         if (clickedElementOrigin.tagName === 'A') {
-            console.log(clickedElementOrigin)
             removeHref();
         } else if (clickedElementOrigin.onclick) {
             removeOnClick();
         }
-        removeClass(document.body, 'ng-long-press');
+        removeClass(document.body, 'long-press-global');
         setTimeout(window.longPress.boundElements.callbacks[clickedElement.getAttribute('data-lnpr-id')].callback);
     }
     function clickEventStopped(event) {
@@ -166,7 +165,7 @@
     }
     function clickEventStarted(event) {
 
-        addClass(document.body, 'ng-long-press');
+        addClass(document.body, 'long-press-global');
         clickedElement = this;
         clickedElementOrigin = event.target;
         drownEvent(event);
