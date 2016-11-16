@@ -144,7 +144,7 @@
             removeOnClick();
         }
         removeClass(document.body, 'long-press-global');
-        setTimeout(window.longPress.boundElements.callbacks[clickedElement.getAttribute('data-lnpr-id')].callback);
+        setTimeout(window.longPress.boundElements.callbacks[clickedElement.getAttribute('data-lnpr-id')].callback, 0);
     }
     function clickEventStopped(event) {
 
@@ -156,8 +156,8 @@
         clickedElement.removeEventListener('touchcancel', clickEventStopped);
         clickedElement.removeEventListener('touchmove', clickEventStopped);
 
-        setTimeout(returnOnClick);
-        setTimeout(returnHref);
+        setTimeout(returnOnClick, 0);
+        setTimeout(returnHref, 0);
 
         clearTimeout(longPressTimer);
 
@@ -276,7 +276,7 @@
     }
     function setDefaultDuration(duration) {
         if(!isInt(duration)) {
-            var error = {
+            throw {
                 "message": 'Invalid argument',
                 "expected": 'Integer',
                 "got": {
@@ -284,7 +284,6 @@
                     "type": typeof duration
                 }
             };
-            throw error;
         } else {
             window.longPress.longClickDuration = duration;
         }
