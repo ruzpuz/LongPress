@@ -43,4 +43,4 @@ longPress.setDefaultDuration(milliseconds) accepts new default long press durati
 
 While active this library will try to prevent context menu (important feature of mobile browsers) from opening. 
 That means that text inside the tag might not be easily selectable 
-on mobile browsers. It is a bad idea to use this librarty on huge content.
+on mobile browsers. It is a bad idea to use this library on huge content.
