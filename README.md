@@ -4,8 +4,10 @@ Handle long press events on HTML elements
 ##How to use it
 - Install it 
     
-~~bower install long-press~~ (soon)
-
+    
+        bower install LongPress
+    
+    
 Including the library will create a global object __**longPress**__ 
 
 longPress methods
@@ -39,6 +41,6 @@ longPress.setDefaultDuration(milliseconds) accepts new default long press durati
 
 ## Disadvantages
 
-While active this directive tries to prevent context menu from opening. 
-That means that text inside directive might not be easily selectable 
-on mobile browsers. It is a bad idea to put this directive on huge content.
+While active this library will try to prevent context menu (important feature of mobile browsers) from opening. 
+That means that text inside the tag might not be easily selectable 
+on mobile browsers. It is a bad idea to use this librarty on huge content.
