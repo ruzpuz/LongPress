@@ -1,4 +1,7 @@
 # LongPress
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/28022089c92448b1b0ec22043bbcd1ec)](https://www.codacy.com/app/ruzic-vladimir/LongPress?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ruzpuz/LongPress&amp;utm_campaign=badger)
+
 Handle long press events on HTML elements
 
 ##How to use it
